@@ -10,7 +10,7 @@ A Python/Flask web app that analyzes email headers and displays:
 - Docker
 - Free API key from [AbuseIPDB](https://www.abuseipdb.com/register)
 
-## 🛠️ Build and Deploy (without Docker Compose)
+## 🛠️ Build and Deploy with Docker
 
 ### 1. Export the environment variable:
 ```bash
