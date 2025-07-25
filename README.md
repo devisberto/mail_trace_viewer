@@ -12,22 +12,33 @@ A Python/Flask web app that analyzes email headers and displays:
 
 ## 🛠️ Build and Deploy with Docker
 
-### 1. Export the environment variable:
+### Option 1: Deploy directly from Docker Hub
+
+You can run the app without building the image locally:
+
 ```bash
 export ABUSEIPDB_API_KEY=your_api_key
+docker run -d -p 8080:8080 --env ABUSEIPDB_API_KEY=$ABUSEIPDB_API_KEY devisberto/mail_trace_viewer:latest
 ```
 
-### 2. Build the Docker image:
-```bash
-docker build -t mail_trace_viewer .
-```
+### Option 2: Build the image locally
 
-### 3. Start the container:
-```bash
-docker run -d -p 8080:8080 --env ABUSEIPDB_API_KEY=$ABUSEIPDB_API_KEY mail_trace_viewer
-```
+1. Export the environment variable:
+    ```bash
+    export ABUSEIPDB_API_KEY=your_api_key
+    ```
 
-### 4. Access the app:
+2. Build the Docker image:
+    ```bash
+    docker build -t mail_trace_viewer .
+    ```
+
+3. Start the container:
+    ```bash
+    docker run -d -p 8080:8080 --env ABUSEIPDB_API_KEY=$ABUSEIPDB_API_KEY mail_trace_viewer
+    ```
+
+### Access the app:
 Open your browser at [http://localhost:8080](http://localhost:8080)
 
 ## 🧪 Features
