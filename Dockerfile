@@ -40,7 +40,7 @@ RUN python -m pip install --no-cache-dir -r requirements.txt && \
 # Set user to run the application
 USER appuser
 
-# exposed port
+# Exposed port
 EXPOSE 8080
 
 # Launch Flask app

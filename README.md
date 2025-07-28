@@ -6,11 +6,11 @@ A Python/Flask web app that analyzes email headers and displays:
 - IP reputation with AbuseIPDB,
 - an interactive logical map and geographic map.
 
-## 🚀 Requirements
+## Requirements
 - Docker
 - Free API key from [AbuseIPDB](https://www.abuseipdb.com/register)
 
-## 🛠️ Build and Deploy with Docker
+## Build and Deploy with Docker
 
 ### Option 1: Deploy directly from Docker Hub
 
@@ -41,14 +41,14 @@ docker run -d -p 8080:8080 --env ABUSEIPDB_API_KEY=$ABUSEIPDB_API_KEY devisberto
 ### Access the app:
 Open your browser at [http://localhost:8080](http://localhost:8080)
 
-## 🧪 Features
+## Features
 - Advanced parsing of the `Received:` field
 - IPv4, IPv6, hostname support with DNS lookup
 - AbuseIPDB API with colored reputation (green/red)
 - Block logical map + Leaflet geographic map
 - Export to JSON
 
-## 📦 Docker
+## Docker
 The Docker image:
 - Uses `oraclelinux:9-slim` with verified digest
 - Python 3.12
@@ -56,11 +56,11 @@ The Docker image:
 - Exposes port 8080
 - No residual `pip`, `setuptools`, or build tools
 
-## 🧾 Useful notes
+## Useful notes
 - `.dockerignore` helps keep the image small
 - Uses `ENTRYPOINT` to launch the app
 - Fallback for failed DNS resolutions included
 
-## 📜 License
+## License
 
 Distributed under [GNU GPLv3](LICENSE)
