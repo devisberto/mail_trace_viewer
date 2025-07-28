@@ -7,27 +7,32 @@ RUN microdnf install -y python3.12 python3.12-pip && \
     python -m pip install --no-cache-dir pip setuptools && \
     microdnf clean all
 
-# Crea un utente non privilegiato
-RUN useradd -m -s /sbin/nologin appuser
+# Create a minimal non-root service user with no home directory
+RUN useradd --system --no-create-home --shell /sbin/nologinn appuser
 
-# Imposta la directory di lavoro
+# Set working directory
 WORKDIR /app
 
-# Copia solo i file necessari nell'immagine
-COPY app.py parser.py requirements.txt /app/
-COPY templates /app/templates
+# Copy application files and set permissions
+RUN mkdir -p /app && chown appuser:appuser /app && chmod 700 /app
+COPY --chown=appuser:appuser --chmod=0400 app.py parser.py requirements.txt /app/
+COPY --chown=appuser:appuser --chmod=0700 templates /app/templates
+RUN chmod 400 /app/templates/*.html
 
-# Installa le dipendenze e rimuovi pip/setuptools per ridurre superficie d'attacco
+# Install application dependencies
+# Use --no-cache-dir to avoid caching the packages and clean up pip cache to reduce image size
 RUN python -m pip install --no-cache-dir -r requirements.txt && \
     rm -rf ~/.cache/pip && \
     microdnf remove -y python3.12-pip python3.12-setuptools && \
     microdnf clean all
 
-# Esegui come utente non root
+# Note: We avoid 'dnf update' to keep builds reproducible. Instead, use updated base images with pinned digests.
+
+# Set user to run the application
 USER appuser
 
-# Espone la porta 8080
+# exposed port
 EXPOSE 8080
 
-# Avvia l'app Flask
+# Launch Flask app
 ENTRYPOINT ["python", "app.py"]
