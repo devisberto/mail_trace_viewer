@@ -9,8 +9,8 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       registry: docker.io
-      namespace: albe83
-      image: llm-gw
+      namespace: devisberto
+      image: mail_trace_viewer
     secrets:
       DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
