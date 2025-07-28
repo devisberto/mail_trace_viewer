@@ -11,7 +11,7 @@ FROM ${BASE_IMAGE} AS base
 
 # Install Python 3.12 and pip
 
-# Installa Python 3.12 e pip
+# Install Python 3.12 and pip
 RUN microdnf install -y python3.12 python3.12-pip && \
     alternatives --install /usr/bin/python python /usr/bin/python3.12 1 && \
     python -m ensurepip && \
