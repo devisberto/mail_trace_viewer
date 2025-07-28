@@ -1,0 +1,60 @@
+name: Release Workflow
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+    with:
+      registry: docker.io
+      namespace: albe83
+      image: llm-gw
+    secrets:
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+
+  provenance:
+    needs:
+      - build
+    uses: ./.github/workflows/provenance.yaml
+    permissions:
+      id-token: write
+      attestations: write
+    with:
+      registry: ${{ needs.build.outputs.registry }}
+      namespace: ${{ needs.build.outputs.namespace }}
+      image: ${{ needs.build.outputs.image }}
+      digest: ${{ needs.build.outputs.digest }}
+    secrets:
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+
+  sbom:
+    needs:
+      - build
+    uses: ./.github/workflows/sbom.yaml
+    permissions:
+      id-token: write
+      contents: write
+    with:
+      namespace: ${{ needs.build.outputs.namespace }}
+      image: ${{ needs.build.outputs.image }}
+      tag: ${{ github.event.release.tag_name }}
+      digest: ${{ needs.build.outputs.digest }}
+    secrets:
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+
+  sign:
+    needs:
+      - build
+      - provenance
+      - sbom
+    uses: ./.github/workflows/sign.yaml
+    permissions:
+      id-token: write
+    with:
+      namespace: ${{ needs.build.outputs.namespace }}
+      digest: ${{ needs.build.outputs.digest }}
+      tags: ${{ needs.build.outputs.tags }}
+    secrets:
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
