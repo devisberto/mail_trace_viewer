@@ -43,9 +43,9 @@ def extract_hops(raw_headers):
     received_headers = msg.get_all('Received') or []
     hops = []
     for line in received_headers:
-        match = re.search(r'from\s+(\S+)', line)
+        match = re.search(r'from\s+(\S+)', line, re.IGNORECASE)
         if match:
-            host = match.group(1)
+            host = match.group(1).strip('[]')
             if is_ip_address(host):
                 hops.append({
                     'hostname': host,
