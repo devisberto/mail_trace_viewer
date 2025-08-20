@@ -17,7 +17,7 @@ RUN microdnf install -y python3.12 python3.12-pip && \
     microdnf clean all
 
 # Create a minimal non-root service user with no home directory
-RUN useradd --system --no-create-home --shell /sbin/nologinn appuser
+RUN useradd --system --no-create-home --shell /sbin/nologin appuser
 
 # Set working directory
 WORKDIR /app
